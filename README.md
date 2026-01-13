@@ -1,4 +1,4 @@
-<img width="1600" height="999" alt="image" src="https://github.com/user-attachments/assets/a8dad446-9a2c-43a8-bff0-f5a2c68a6b3b" /># WEATHER-FORECAST-APP-AND-WEBSITE
+# WEATHER-FORECAST-APP-AND-WEBSITE
 Ứng dụng android dự báo thời tiết (openweatherAPI) và website
 
 Preview app
