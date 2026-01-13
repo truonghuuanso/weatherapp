@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự Báo Thời Tiết Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body onload="initApp()">
+
+    <button id="userBtn" class="user-btn">👤 Đăng nhập ngay</button>
+
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 id="authTitle">Đăng nhập</h2>
+            <input type="email" id="authEmail" placeholder="Email...">
+            <input type="password" id="authPass" placeholder="Mật khẩu...">
+            
+            <button id="btnLoginAction" class="modal-btn primary">Đăng nhập</button>
+            <button id="btnSignupAction" class="modal-btn success" style="display:none;">Đăng ký tài khoản</button>
+            
+            <button id="btnGoogle" class="modal-btn google-btn">
+                <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" width="18">
+                Tiếp tục với Google
+            </button>
+            <p class="switch-auth" onclick="toggleAuthMode()" id="switchText">
+                Chưa có tài khoản? <span>Đăng ký ngay</span>
+            </p>
+            
+            <button class="close-btn" onclick="document.getElementById('authModal').style.display='none'">Đóng</button>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+
+        <div class="side-panel left-panel" id="healthPanel">
+            <div class="panel-header">💊 Sức Khỏe & Skin</div>
+            <div class="loading-text">Đang tải...</div>
+        </div>
+
+        <div class="card anime-card">
+            <div class="top-section">
+                <div class="header-row">
+                    <div id="clock" class="clock">00:00</div>
+                    <div id="date" class="date">...</div>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" id="cityInput" placeholder="Tìm thành phố (hoặc quốc gia)..." autocomplete="off" 
+                           oninput="searchCity()" onfocus="showSearchMode()">
+                    <button class="icon-btn" onclick="getLocation()">📍</button>
+                </div>
+                <button class="icon-btn" onclick="getLocation()">📍</button>
+                <button class="icon-btn" onclick="openMapPicker()">🗺️</button>
+    
+                <div id="searchList" class="search-list" style="display: none;">
+                    <div class="placeholder-text">Nhập tên để tìm...</div>
+                </div>
+    
+                <button id="mainBtn" class="search-btn" onclick="getWeather()">🔍 Xem Chi Tiết</button>
+            </div>
+    
+            <div id="result" class="result" style="display: none;">
+                <div class="current-weather">
+                    <div class="city-header">
+                        <h2 id="cityName">--</h2>
+                        <button id="mapBtn" class="map-btn">🗺️</button>
+                    </div>
+                    
+                    <div class="main-display">
+                        <img id="weatherIcon" src="" alt="icon">
+                        <div>
+                            <div class="temp" id="temp">--°</div>
+                            <div class="desc" id="desc">--</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-details">
+                        <div class="g-item">🍃 <span id="wind">--</span></div>
+                        <div class="g-item">💧 <span id="humidity">--</span></div>
+                        <div class="g-item">😷 <span id="aqi">--</span></div> 
+                        <div class="g-item">👁️ <span id="vis">--</span></div>
+                    </div>
+                </div>
+    
+                <hr class="divider">
+                
+                <div class="section-title">📈 Xu hướng nhiệt độ</div>
+                <div class="chart-container" style="position: relative; height:180px; width:100%; margin-top: 10px;">
+                    <canvas id="tempChart"></canvas>
+                </div>
+                <div id="expertAdvice" style="margin-top: 15px; padding: 10px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 4px; font-size: 0.9rem; font-style: italic; color: #0d47a1;">
+                    🤖 Đang phân tích dữ liệu...
+                </div>
+    
+                <hr class="divider">
+
+                <div class="section-title">📅 3 Ngày tới</div>
+                <div class="daily-list" id="dailyList"></div>
+    
+                <div class="astro-box">
+                    <div>🌅 <span id="sunrise">--</span></div>
+                    <div>🌇 <span id="sunset">--</span></div>
+                    <div>🌙 <span id="moon">--</span></div>
+                </div>
+                
+                <hr class="divider">
+                <div class="section-title">💡 Lời khuyên nhanh</div>
+                <div class="lifestyle-grid" id="lifestyleList"></div>
+            </div>
+        </div>
+
+        <div class="side-panel right-panel" id="travelPanel">
+            <div class="panel-header">✈️ Du Lịch & An Toàn</div>
+            <div class="loading-text">Đang tải dữ liệu...</div>
+        </div>
+
+    </div>
+
+    <script type="module" src="script.js"></script>
+    <div id="mapModal" class="modal-overlay">
+        <div class="modal-box" style="width: 90%; max-width: 800px; padding: 0;">
+            <div style="padding: 15px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee;">
+                <h3 style="margin:0;">📍 Chọn địa điểm trên bản đồ</h3>
+                <button class="close-btn" onclick="document.getElementById('mapModal').style.display='none'" style="margin:0; padding: 5px 10px;">Đóng</button>
+            </div>
+            <div id="map" style="height: 400px; width: 100%;"></div>
+            <div style="padding: 10px; text-align: center; font-style: italic; color: #666; font-size: 0.9rem;">
+                👉 Chạm vào bất kỳ đâu để xem thời tiết!
+            </div>
+        </div>
+    </div>
+
+    <button onclick="document.getElementById('badgeModal').style.display='flex'; window.loadBadges();" class="badge-btn">
+    🏆 Thành tựu
+</button>
+
+<div id="badgeModal" class="modal-overlay">
+    <div class="modal-box" style="width: 400px;">
+        <h3 style="color: #ff8fab; margin-top:0;">🏆 Bộ Sưu Tập</h3>
+        <p style="font-size: 13px; color: #666;">Đi check-in nhiều nơi để mở khóa nhé!</p>
+        
+        <div id="badgeList" class="badge-grid">
+            </div>
+
+        <button class="modal-btn" onclick="document.getElementById('badgeModal').style.display='none'" style="margin-top: 20px; background: #555;">Đóng</button>
+    </div>
+</div>
+</body>
+</html>
