@@ -1,0 +1,258 @@
+/* =========================================
+   1. CẤU HÌNH CƠ BẢN (RESET)
+   ========================================= */
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-image: url('https://i.pinimg.com/originals/7b/a3/e3/7ba3e30243d1291c64714d5a0912279f.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #555;
+    padding: 20px;
+}
+
+/* =========================================
+   2. MOBILE FIRST (Mặc định cho điện thoại)
+   ========================================= */
+
+/* Khung bao ngoài Dashboard */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Panel phụ (2 cánh) */
+.side-panel {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 2px solid white;
+    display: none; /* Mặc định ẩn */
+}
+
+.panel-header {
+    font-family: 'Fredoka One';
+    font-size: 1.2rem;
+    color: #ff8fab;
+    text-align: center;
+    margin-bottom: 15px;
+    background: white;
+    padding: 8px;
+    border-radius: 15px;
+}
+
+.advice-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.6);
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    transition: transform 0.2s;
+}
+.advice-item:hover { transform: scale(1.02); background: white; }
+.adv-icon { font-size: 1.5rem; background: #eafffd; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; border-radius: 50%; border: 1px solid #a2d2ff; flex-shrink: 0; }
+.adv-text { font-size: 0.9rem; color: #555; font-weight: bold; line-height: 1.4; }
+
+/* Thẻ chính (Giữa) */
+.anime-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    border-radius: 30px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 420px;
+    padding: 25px;
+    transition: all 0.4s ease;
+}
+
+/* --- Top Section --- */
+.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.clock { font-family: 'Fredoka One'; font-size: 2.5rem; color: #ff8fab; line-height: 1; }
+.date { background: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; color: #888; font-size: 0.85rem; }
+
+.search-box { display: flex; gap: 10px; position: relative; margin-bottom: 15px; }
+input { width: 100%; padding: 12px 15px; border: 2px solid #bde0fe; border-radius: 15px; outline: none; transition: 0.3s; }
+input:focus { border-color: #ff8fab; background: #fff5f8; }
+.icon-btn, .map-btn { background: #e0f7fa; border: none; border-radius: 12px; padding: 0 12px; font-size: 1.2rem; cursor: pointer; }
+.search-btn { width: 100%; padding: 12px; background: linear-gradient(45deg, #ff9a9e, #fad0c4); color: white; font-weight: bold; border: none; border-radius: 15px; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+.search-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4); }
+
+.search-list { background: white; border-radius: 15px; margin-top: 5px; max-height: 200px; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.search-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+.search-item:hover { background: #f0f8ff; color: #ff8fab; }
+.item-name { font-weight: bold; } .item-country { font-size: 0.8rem; color: #999; background: #eee; padding: 2px 6px; border-radius: 5px; }
+.placeholder-text { padding: 15px; text-align: center; color: #999; font-style: italic; }
+
+/* --- Kết quả --- */
+.current-weather { text-align: center; padding: 10px 0; }
+.city-header h2 { margin: 0; color: #444; font-size: 1.6rem; display: inline-block; margin-right: 10px; }
+.main-display { display: flex; align-items: center; justify-content: center; margin: 15px 0; }
+.main-display img { width: 90px; height: 90px; object-fit: contain; }
+.temp { font-family: 'Fredoka One'; font-size: 4rem; color: #555; line-height: 1; }
+.desc { text-transform: capitalize; color: #888; font-weight: 600; font-size: 1.1rem; }
+
+.grid-details { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-top: 15px; }
+.g-item { background: rgba(255,255,255,0.6); padding: 8px 5px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; color: #666; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+
+.divider { border: 0; height: 2px; background: #ffe5ec; margin: 20px 0; width: 100%; }
+.section-title { font-weight: 700; color: #ff8fab; margin-bottom: 12px; font-size: 1rem; display: flex; align-items: center; gap: 5px; }
+
+/* Daily List */
+.daily-list { display: flex; flex-direction: column; gap: 10px; }
+.day-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.5); padding: 10px 15px; border-radius: 15px; transition: 0.2s; }
+.day-row:hover { background: white; }
+.day-name { width: 90px; font-weight: bold; }
+.day-temp { font-weight: bold; color: #333; }
+.min-temp { color: #999; font-size: 0.9rem; margin-left: 8px; }
+
+.astro-box { display: flex; justify-content: space-around; background: #fff0f5; padding: 12px; border-radius: 15px; margin-top: 15px; font-weight: bold; color: #ff8fab; font-size: 0.9rem; }
+
+/* Lifestyle Grid */
+.lifestyle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.life-card { background: white; padding: 10px; border-radius: 15px; display: flex; align-items: center; gap: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); transition: transform 0.2s; }
+.life-card:hover { transform: translateY(-3px); }
+.life-icon { font-size: 1.5rem; flex-shrink: 0; }
+.life-content h4 { margin: 0; font-size: 0.8rem; color: #555; }
+.life-content p { margin: 0; font-size: 0.75rem; color: #888; }
+
+/* =========================================
+   3. DESKTOP MODE (RESPONSIVE)
+   ========================================= */
+@media (min-width: 1100px) {
+    .dashboard-container {
+        flex-direction: row; /* Xếp ngang 3 cột */
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 40px;
+    }
+
+    .anime-card {
+        order: 2; /* Thẻ chính nằm giữa */
+        z-index: 10;
+        transform: scale(1.05); /* To hơn chút để nổi bật */
+        width: 450px;
+    }
+
+    .left-panel {
+        order: 1; /* Sức khỏe bên trái */
+        margin-top: 50px;
+        width: 320px;
+    }
+
+    .right-panel {
+        order: 3; /* Du lịch bên phải */
+        margin-top: 50px;
+        width: 320px;
+    }
+}
+
+/* =========================================
+   4. STYLE CHO PHẦN FIREBASE (MỚI)
+   ========================================= */
+.user-btn {
+    position: fixed; top: 20px; right: 20px;
+    padding: 10px 20px; border-radius: 30px; border: none;
+    background: white; font-weight: bold; color: #555;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; z-index: 999;
+}
+.modal-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;
+}
+.modal-box {
+    background: white; padding: 25px; border-radius: 20px; width: 300px; text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.modal-box input {
+    width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd;
+    border-radius: 8px; outline: none;
+}
+.modal-btn {
+    width: 100%; padding: 12px; border: none; border-radius: 8px; color: white;
+    font-weight: bold; cursor: pointer; margin-top: 5px;
+}
+.primary { background: #ff8fab; }
+.success { background: #4caf50; }
+.switch-auth { font-size: 13px; margin-top: 15px; cursor: pointer; color: #666; }
+.switch-auth span { color: #ff8fab; font-weight: bold; text-decoration: underline; }
+.close-btn { margin-top: 10px; background: none; border: none; color: #999; cursor: pointer; }
+
+/* Nút Google mới */
+.google-btn {
+    background: white; 
+    color: #555; 
+    border: 1px solid #ddd; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 10px;
+    margin-top: 10px;
+}
+.google-btn:hover {
+    background-color: #f1f1f1;
+}
+/* Nút Thành Tựu Vàng Gold */
+.badge-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 12px 25px;
+    background: linear-gradient(45deg, #FFD700, #FF8C00);
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s;
+    font-family: 'Nunito', sans-serif;
+}
+.badge-btn:hover { transform: scale(1.1); }
+
+/* Lưới hiển thị huy hiệu */
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+/* Thẻ huy hiệu */
+.badge-item {
+    background: #fff8e1;
+    border: 1px solid #ffecb3;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    transition: 0.3s;
+}
+.badge-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    background: white;
+    border-color: #ffd700;
+}
+.badge-icon { font-size: 28px; margin-bottom: 5px; }
+.badge-name { font-size: 11px; font-weight: bold; color: #d84315; }
