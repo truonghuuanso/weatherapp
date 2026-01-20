@@ -5,6 +5,7 @@ Preview app
 
 <img width="858" height="1908" alt="image" src="https://github.com/user-attachments/assets/ab440283-0528-4370-b9ab-0ae6536b3f1a" />
 <img width="858" height="1908" alt="image" src="https://github.com/user-attachments/assets/b288addc-5fe8-49f7-9b24-1c25b4904115" />
+<img width="355" height="651" alt="image" src="https://github.com/user-attachments/assets/f2d0c495-54e6-4e1a-9d64-cf95269e9e35" />
 <img width="858" height="1908" alt="image" src="https://github.com/user-attachments/assets/87d347b6-386e-4439-8212-de23e6f9bb1a" />
 
 Preview website
